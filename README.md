@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # aws_pinpoint_update_preferred_channel
 AWS CDK architecture on updating the preferred channel attribute of endpoints for Amazon Pinpoint
 

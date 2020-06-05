@@ -4,19 +4,17 @@ AWS CDK architecture on updating the preferred channel attribute of endpoints fo
 
 # Overview
 ![preferred_architecture](./.assets/preferred_architecture.png)
-=======
-# Welcome to your CDK TypeScript project!
 
-This is a blank project for TypeScript development with CDK.
+# Stack
+![preferred_stack](./.assets/preferred_stack.png)
+
+ * `Pinpoint Stack`
+ * `Pinpoint Eventstream Stack`
+ * `Convert Stack`
+ * `Update Stack`
+
+# How to deploy
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-## Useful commands
-
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
->>>>>>> Initial commit
+ * `cdk deploy` deploy this stack to your default AWS account/region

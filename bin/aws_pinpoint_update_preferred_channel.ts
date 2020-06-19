@@ -18,18 +18,22 @@ import * as constant from './../lib/interfaces/constant';
 import { UpdateStack } from '../lib/update-stack';
 import { PinpointEventstreamStack } from '../lib/pinpoint_eventstream-stack';
 import { PinpointStack } from '../lib/pinpoint-stack';
-import { ConvertStack } from '../lib/convert-stack';
+import { BasicStack } from '../lib/basic-stack';
 
 const app = new cdk.App();
 
+const basicStack = new BasicStack(app, `${constant.Namespace}BasicStack`);
 const pinpointStack = new PinpointStack(app, `${constant.Namespace}PinpointStack`);
 
-const updateStack = new UpdateStack(app, `${constant.Namespace}UpdateStack`);
+const updateStack = new UpdateStack(app, `${constant.Namespace}UpdateStack`, {
+  userTable: basicStack.userTable
+});
+updateStack.addDependency(basicStack);
 updateStack.addDependency(pinpointStack);
 
-const convertStack = new ConvertStack(app, `${constant.Namespace}ConvertStack`);
-convertStack.addDependency(updateStack);
-
-const pinpointEventStreamStack = new PinpointEventstreamStack(app, `${constant.Namespace}PinpointEventstreamStack`);
-pinpointEventStreamStack.addDependency(convertStack);
+const pinpointEventStreamStack = new PinpointEventstreamStack(app, `${constant.Namespace}PinpointEventstreamStack`,{
+  pinpointApp: pinpointStack.pinpointApp,
+  preferredTable: updateStack.preferredTable
+});
+pinpointEventStreamStack.addDependency(updateStack);
 

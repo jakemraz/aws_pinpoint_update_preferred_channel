@@ -17,10 +17,13 @@ import * as constant from './interfaces/constant'
 
 
 export class PinpointStack extends cdk.Stack {
+
+  public readonly pinpointApp: pinpoint.CfnApp
+
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const app = new pinpoint.CfnApp(this, `${constant.Namespace}PinpointApp`, {
+    this.pinpointApp = new pinpoint.CfnApp(this, `${constant.Namespace}PinpointApp`, {
       name: `${constant.Namespace}PinpointApp`
     });
 

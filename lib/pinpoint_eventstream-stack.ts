@@ -12,16 +12,22 @@
   ******************************************************************************************************************** */ 
 
 import * as cdk from '@aws-cdk/core';
+import * as pinpoint from '@aws-cdk/aws-pinpoint';
 import * as ddb from '@aws-cdk/aws-dynamodb';
 import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as constant from './interfaces/constant'
 import * as path from 'path';
 
-export class PinpointEventstreamStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
 
+interface Props extends cdk.StackProps{
+  pinpointApp: pinpoint.CfnApp;
+  preferredTable: ddb.ITable;
+}
+
+export class PinpointEventstreamStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props: Props) {
+    super(scope, id, props);
 
     const ddbPolicy = new iam.PolicyStatement({
       actions: ["dynamodb:*"],

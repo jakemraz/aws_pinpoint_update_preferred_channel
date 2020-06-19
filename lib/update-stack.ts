@@ -13,11 +13,46 @@
 
 import * as cdk from '@aws-cdk/core';
 import * as ddb from '@aws-cdk/aws-dynamodb';
+import * as iam from '@aws-cdk/aws-iam';
+import * as lambda from '@aws-cdk/aws-lambda';
 import * as constant from './interfaces/constant'
+import * as path from 'path';
+
+interface Props extends cdk.StackProps{
+  userTable: ddb.ITable;
+}
 
 export class UpdateStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+
+  public readonly preferredTable: ddb.ITable;
+
+  constructor(scope: cdk.Construct, id: string, props: Props) {
     super(scope, id, props);
+
+    const pinpointPolicy = new iam.PolicyStatement({
+      actions: ["mobiletargeting:UpdateEndpointsBatch"],
+      resources: ['*']
+    });
+    
+    this.preferredTable = new ddb.Table(this, `${constant.Namespace}PreferredTable`, {
+      tableName: `${constant.Namespace}PreferredTable`,
+      partitionKey: {name: 'client_id', type: ddb.AttributeType.STRING},
+      sortKey: {name: 'campaign_id', type: ddb.AttributeType.STRING}
+    });
+
+    const preferredUpdateHandler = new lambda.Function(this, `${constant.Namespace}UpdateLambda`, {
+      functionName: `${constant.Namespace}UpdateLambda`,
+      runtime: lambda.Runtime.PYTHON_3_8,
+      environment: {
+        PREFERRED_TABLE: this.preferredTable.tableName,
+        USER_TABLE: props?.userTable.tableName
+      },
+      handler: 'update_lambda.lambda_handler',
+      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda-handler'))
+    });
+    
+    preferredUpdateHandler.addToRolePolicy(pinpointPolicy);
+    this.preferredTable.grantReadData(preferredUpdateHandler);
 
   }
 }

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-.DS_Store
-
-=======
 *.js
 !jest.config.js
 *.d.ts
@@ -14,4 +10,9 @@ cdk.out
 # Parcel build directories
 .cache
 .build
->>>>>>> Initial commit
+
+# Python
+.env
+
+.vscode
+.DS_Store

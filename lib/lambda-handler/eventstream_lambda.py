@@ -23,15 +23,14 @@ from boto3.dynamodb.table import BatchWriter
 
 print('Loading function')
 
+ddb = boto3.resource('dynamodb')
+table = ddb.Table('PreferredPreferredTable')
+
 def lambda_handler(event, context):
     output = []
-
-    ddb = boto3.resource('dynamodb')
-    table = ddb.Table('PreferredPreferredTable')
     
     items = []
     duplicate = {}
-    
 
     for record in event['records']:
         print(record['recordId'])

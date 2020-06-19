@@ -29,10 +29,10 @@ export class PinpointEventstreamStack extends cdk.Stack {
     });
 
 
-    const preferredUpdateHandler = new lambda.Function(this, `${constant.Namespace}PreferredUpdateHandler`, {
-      functionName: `${constant.Namespace}PreferredUpdateHandler`,
+    const preferredUpdateHandler = new lambda.Function(this, `${constant.Namespace}EventstreamLambda`, {
+      functionName: `${constant.Namespace}EventstreamLambda`,
       runtime: lambda.Runtime.PYTHON_3_8,
-      handler: 'preferred_update.lambda_handler',
+      handler: 'eventstream_lambda.lambda_handler',
       code: lambda.Code.fromAsset(path.join(__dirname, 'lambda-handler'))
     });
     preferredUpdateHandler.addToRolePolicy(ddbPolicy);

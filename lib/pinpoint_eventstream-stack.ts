@@ -20,6 +20,7 @@ import * as constant from './interfaces/constant'
 import * as firehose from '@aws-cdk/aws-kinesisfirehose'
 import * as s3 from '@aws-cdk/aws-s3'
 import * as path from 'path';
+import * as ssm from '@aws-cdk/aws-ssm'
 import { PolicyStatement, PolicyDocument } from '@aws-cdk/aws-iam';
 import { Duration } from '@aws-cdk/core';
 
@@ -212,7 +213,7 @@ export class PinpointEventstreamStack extends cdk.Stack {
       resources: [fs.attrArn]
     });
     const eventstreamRole = new iam.Role(this, `${constant.Namespace}EventstreamRole`, {
-      assumedBy: new iam.ServicePrincipal('firehose.amazonaws.com'),
+      assumedBy: new iam.ServicePrincipal('pinpoint.amazonaws.com'),
       path: '/service-role/',
       inlinePolicies: {
         'PinpointEventstreamPolicy': new iam.PolicyDocument({
@@ -223,11 +224,11 @@ export class PinpointEventstreamStack extends cdk.Stack {
       }
     });
 
-    // new pinpoint.CfnEventStream(this, `${constant.Namespace}PinpointEventstream`, {
-    //   applicationId: props.pinpointApp.ref,
-    //   roleArn: cdk.Fn.getAtt(fs.logicalId, 'Arn').toString(), //eventstreamRole.roleArn,
-    //   destinationStreamArn: fs.attrArn
-    // });
+    new pinpoint.CfnEventStream(this, `${constant.Namespace}PinpointEventstream`, {
+      applicationId: props.pinpointApp.ref,
+      roleArn: eventstreamRole.roleArn,
+      destinationStreamArn: fs.attrArn
+    });
 
     
 

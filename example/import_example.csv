@@ -1,0 +1,8 @@
+Id,ChannelType,Address,User.UserId
+email-a,EMAIL,jakemraz100+a@gmail.com,usera
+email-b,EMAIL,jakemraz100+b@gmail.com,userb
+email-c,EMAIL,jakemraz100+c@gmail.com,userc
+gcm-a,GCM,gcma,usera
+gcm-b,GCM,gcma,userb
+apns-a,APNS,apnsa,usera
+apns-b,APNS,apnsb,userb

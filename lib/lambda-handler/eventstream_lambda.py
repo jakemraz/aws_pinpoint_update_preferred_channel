@@ -18,13 +18,14 @@ from __future__ import print_function
 import base64
 import boto3
 import json
+import os
 from botocore.exceptions import ClientError
 from boto3.dynamodb.table import BatchWriter
 
 print('Loading function')
 
 ddb = boto3.resource('dynamodb')
-table = ddb.Table('PreferredPreferredTable')
+table = ddb.Table(os.environ('PREFERRED_TABLE'))
 
 def lambda_handler(event, context):
     output = []

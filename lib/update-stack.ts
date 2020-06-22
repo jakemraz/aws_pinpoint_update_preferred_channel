@@ -18,6 +18,7 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as pinpoint from '@aws-cdk/aws-pinpoint';
 import * as constant from './interfaces/constant'
 import * as path from 'path';
+import { Duration } from '@aws-cdk/core';
 
 interface Props extends cdk.StackProps{
   userTable: ddb.ITable;
@@ -32,7 +33,8 @@ export class UpdateStack extends cdk.Stack {
     super(scope, id, props);
 
     const pinpointPolicy = new iam.PolicyStatement({
-      actions: ["mobiletargeting:UpdateEndpointsBatch"],
+      actions: ["mobiletargeting:UpdateEndpointsBatch",
+                "mobiletargeting:GetUserEndpoints"],
       resources: ['*']
     });
     
@@ -50,6 +52,7 @@ export class UpdateStack extends cdk.Stack {
         USER_TABLE: props.userTable.tableName,
         PINPOINT_APP: props.pinpointApp.ref
       },
+      timeout: Duration.minutes(5),
       handler: 'update_lambda.lambda_handler',
       code: lambda.Code.fromAsset(path.join(__dirname, 'lambda-handler'))
     });

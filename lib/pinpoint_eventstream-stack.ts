@@ -35,8 +35,8 @@ export class PinpointEventstreamStack extends cdk.Stack {
 
     // lambda handler
     const ddbPolicy = new iam.PolicyStatement({
-      actions: ["dynamodb:*"],
-      resources: ['*']
+      actions: ["dynamodb:BatchWriteItem"],
+      resources: [props.preferredTable.tableArn]
     });
 
     const eventstreamHandler = new lambda.Function(this, `${constant.Namespace}EventstreamLambda`, {
@@ -222,15 +222,14 @@ export class PinpointEventstreamStack extends cdk.Stack {
         })
       }
     });
-    
-
-
 
     // new pinpoint.CfnEventStream(this, `${constant.Namespace}PinpointEventstream`, {
     //   applicationId: props.pinpointApp.ref,
-    //   roleArn: firehoseDeliveryRole.roleArn,
+    //   roleArn: cdk.Fn.getAtt(fs.logicalId, 'Arn').toString(), //eventstreamRole.roleArn,
     //   destinationStreamArn: fs.attrArn
     // });
+
+    
 
   }
 }

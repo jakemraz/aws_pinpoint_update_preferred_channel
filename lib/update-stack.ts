@@ -15,11 +15,13 @@ import * as cdk from '@aws-cdk/core';
 import * as ddb from '@aws-cdk/aws-dynamodb';
 import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
+import * as pinpoint from '@aws-cdk/aws-pinpoint';
 import * as constant from './interfaces/constant'
 import * as path from 'path';
 
 interface Props extends cdk.StackProps{
   userTable: ddb.ITable;
+  pinpointApp: pinpoint.CfnApp;
 }
 
 export class UpdateStack extends cdk.Stack {
@@ -45,7 +47,8 @@ export class UpdateStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_8,
       environment: {
         PREFERRED_TABLE: this.preferredTable.tableName,
-        USER_TABLE: props?.userTable.tableName
+        USER_TABLE: props.userTable.tableName,
+        PINPOINT_APP: props.pinpointApp.ref
       },
       handler: 'update_lambda.lambda_handler',
       code: lambda.Code.fromAsset(path.join(__dirname, 'lambda-handler'))
@@ -53,6 +56,7 @@ export class UpdateStack extends cdk.Stack {
     
     preferredUpdateHandler.addToRolePolicy(pinpointPolicy);
     this.preferredTable.grantReadData(preferredUpdateHandler);
+    props.userTable.grantReadData(preferredUpdateHandler);
 
   }
 }

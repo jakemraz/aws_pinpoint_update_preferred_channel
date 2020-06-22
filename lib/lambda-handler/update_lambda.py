@@ -30,9 +30,9 @@ pinpoint = boto3.client('pinpoint')
 ddb = boto3.resource('dynamodb')
 #user_table = ddb.Table('PreferredUserTable')
 #preferred_table = ddb.Table('PreferredPreferredTable')
-preferred_table = ddb.Table(os.environ('PREFERRED_TABLE'))
-user_table = ddb.Table(os.environ('USER_TABLE'))
-application_id = 'c6504a2cca654c0f8415184859857fdc'
+preferred_table = ddb.Table(os.environ['PREFERRED_TABLE'])
+user_table = ddb.Table(os.environ['USER_TABLE'])
+application_id = os.environ['PINPOINT_APP']
 
 def lambda_handler(event, context):
   

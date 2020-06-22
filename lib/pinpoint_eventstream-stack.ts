@@ -93,7 +93,8 @@ export class PinpointEventstreamStack extends cdk.Stack {
                 "lambda:GetFunctionConfiguration"
               ],
               resources: [
-                `arn:aws:lambda:${this.region}:${this.account}:function:${eventstreamHandler.functionName}:%FIREHOSE_DEFAULT_VERSION%`
+                //`arn:aws:lambda:${this.region}:${this.account}:function:${eventstreamHandler.functionName}:%FIREHOSE_DEFAULT_VERSION%`
+                `arn:aws:lambda:${this.region}:${this.account}:function:${eventstreamHandler.functionName}:*`
               ]
             }),
             new iam.PolicyStatement({
@@ -101,7 +102,8 @@ export class PinpointEventstreamStack extends cdk.Stack {
                 "logs:PutLogEvents"
               ],
               resources: [
-                `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/kinesisfirehose/%FIREHOSE_STREAM_NAME%:log-stream:*` // check %FIREHOSE_STREAM_NAME%
+                //`arn:aws:logs:${this.region}:${this.account}:log-group:/aws/kinesisfirehose/%FIREHOSE_STREAM_NAME%:log-stream:*` // check %FIREHOSE_STREAM_NAME%
+                `arn:aws:logs:${this.region}:${this.account}:log-group:/aws/kinesisfirehose/${constant.Namespace}PinpointStream:log-stream:*`
               ]
             }),
             new iam.PolicyStatement({

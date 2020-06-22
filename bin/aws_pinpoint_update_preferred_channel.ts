@@ -26,7 +26,8 @@ const basicStack = new BasicStack(app, `${constant.Namespace}BasicStack`);
 const pinpointStack = new PinpointStack(app, `${constant.Namespace}PinpointStack`);
 
 const updateStack = new UpdateStack(app, `${constant.Namespace}UpdateStack`, {
-  userTable: basicStack.userTable
+  userTable: basicStack.userTable,
+  pinpointApp: pinpointStack.pinpointApp
 });
 updateStack.addDependency(basicStack);
 updateStack.addDependency(pinpointStack);

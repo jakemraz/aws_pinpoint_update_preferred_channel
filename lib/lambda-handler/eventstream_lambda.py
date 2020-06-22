@@ -25,7 +25,7 @@ from boto3.dynamodb.table import BatchWriter
 print('Loading function')
 
 ddb = boto3.resource('dynamodb')
-table = ddb.Table(os.environ('PREFERRED_TABLE'))
+table = ddb.Table(os.environ['PREFERRED_TABLE'])
 
 def lambda_handler(event, context):
     output = []

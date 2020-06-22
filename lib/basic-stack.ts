@@ -14,8 +14,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as ddb from '@aws-cdk/aws-dynamodb';
 import * as constant from './interfaces/constant'
-import * as Dynamodb from 'aws-sdk/clients/dynamodb';
-import { SharedIniFileCredentials } from 'aws-sdk';
 import { print } from 'util';
 
 export class BasicStack extends cdk.Stack {

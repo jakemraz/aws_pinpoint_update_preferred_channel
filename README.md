@@ -9,9 +9,11 @@ AWS CDK architecture on updating the preferred channel attribute of endpoints fo
 # Stack
 ![preferred_stack](./.assets/preferred_stack.png)
 
+ * `Basic Stack`
  * `Pinpoint Stack`
  * `Pinpoint Eventstream Stack`
  * `Update Stack`
+
 
 # How to deploy
 
